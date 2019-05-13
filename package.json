@@ -1,12 +1,13 @@
 {
   "name": "gulptask-dev-server",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "./index.js",
   "repository": "https://MasatoMakino@github.com/MasatoMakino/gulptask-dev-server.git",
   "author": "MasatoMakino <unagiinu.g@gmail.com>",
   "license": "MIT",
   "dependencies": {
     "browser-sync": "^2.26.5",
+    "compression": "^1.7.4",
     "gulp": "^4.0.2",
     "gulp-connect-php": "^1.0.3",
     "make-dir": "^3.0.0"

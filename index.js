@@ -3,6 +3,7 @@
 const { watch, series } = require("gulp");
 const connect = require("gulp-connect-php");
 const browserSync = require("browser-sync").create();
+const compress = require("compression");
 const fs = require("fs");
 const path = require("path");
 const makeDir = require("make-dir");
@@ -28,7 +29,10 @@ module.exports = (base, option) => {
     connect.server(option, () => {
       browserSync.init(
         {
-          proxy: "localhost:" + option.port
+          proxy: {
+            target: "localhost:" + option.port,
+            middleware: [compress()]
+          }
         },
         done
       );
