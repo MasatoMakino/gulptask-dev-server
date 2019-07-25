@@ -1,6 +1,6 @@
 {
   "name": "gulptask-dev-server",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "main": "./index.js",
   "repository": "https://MasatoMakino@github.com/MasatoMakino/gulptask-dev-server.git",
   "author": "MasatoMakino <unagiinu.g@gmail.com>",
@@ -11,7 +11,7 @@
     "gulp": "^4.0.2",
     "gulp-connect-php": "^1.0.3",
     "make-dir": "^3.0.0",
-    "portfinder": "^1.0.20"
+    "portfinder": "^1.0.21"
   },
   "devDependencies": {
     "prettier": "^1.18.2"
