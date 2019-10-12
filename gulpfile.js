@@ -1,3 +1,3 @@
 "use strict";
-const server = require("./index")("./dist");
+const server = require("./bin").get("./dist", {ignore:"**/*.json"});
 exports.server = server;

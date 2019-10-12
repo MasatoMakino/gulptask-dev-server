@@ -1,7 +1,8 @@
 {
   "name": "gulptask-dev-server",
-  "version": "0.1.4",
-  "main": "./index.js",
+  "version": "0.2.0",
+  "main": "./bin/index.js",
+  "types": "./bin/index.d.ts",
   "repository": "https://MasatoMakino@github.com/MasatoMakino/gulptask-dev-server.git",
   "author": "MasatoMakino <unagiinu.g@gmail.com>",
   "license": "MIT",
@@ -11,9 +12,15 @@
     "gulp": "^4.0.2",
     "gulp-connect-php": "^1.0.3",
     "make-dir": "^3.0.0",
-    "portfinder": "^1.0.21"
+    "portfinder": "^1.0.24"
   },
   "devDependencies": {
-    "prettier": "^1.18.2"
+    "@types/node": "^12.7.12",
+    "prettier": "^1.18.2",
+    "typescript": "^3.6.4"
+  },
+  "scripts": {
+    "build": "npx tsc",
+    "run": "gulp server"
   }
 }

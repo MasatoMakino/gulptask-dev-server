@@ -1,38 +1,23 @@
 "use strict";
 
+import { ServerOption, initOption, initBaseDir } from "./ServerOption";
+
 const { watch, series } = require("gulp");
 const connect = require("gulp-connect-php");
 const browserSync = require("browser-sync").create();
 const compress = require("compression");
 const portfinder = require("portfinder");
-const fs = require("fs");
 const path = require("path");
-const makeDir = require("make-dir");
-
-/**
- * @typedef Option
- *
- * @param {number} [basePort = 8000]
- * @param {number} [highestPort = 65535]
- */
 
 /**
  * サーバー開始およびリロードタスクを取得する。
- * @param {string} base - webサーバーのルートになるディレクトリ
- * @param {Option} [option]
+ * @param base - webサーバーのルートになるディレクトリ
+ * @param [option]
  * @return {{server: server, reload: reload}}
  */
-module.exports = (base, option) => {
-  if (option == null) option = {};
-
-  option.base = path.resolve(process.cwd(), base);
-  if (option.basePort == null) option.basePort = 8000;
-  if (option.highestPort == null) option.highestPort = 65535;
-
-  const isExistBase = fs.existsSync(option.base);
-  if (!isExistBase) {
-    makeDir.sync(option.base);
-  }
+export function get(base: string, option?: ServerOption): Function {
+  option = initOption(option, base);
+  initBaseDir(option);
 
   const server = done => {
     portfinder.basePort = option.basePort;
@@ -66,9 +51,15 @@ module.exports = (base, option) => {
   };
 
   const watchPath = path.resolve(option.base, "**/*");
+  const ignorePath = (option.ignore as string[]).map(val => {
+    return "!"+path.resolve(option.base, val);
+  });
+  const pathArray = [watchPath, ...ignorePath];
+  console.log( pathArray );
+
   const watchTask = () => {
-    watch(watchPath, reload);
+    watch(pathArray, reload);
   };
 
   return series(server, watchTask);
-};
+}
