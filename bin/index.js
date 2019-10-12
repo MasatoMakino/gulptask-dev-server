@@ -46,7 +46,6 @@ function get(base, option) {
         return "!" + path.resolve(option.base, val);
     });
     const pathArray = [watchPath, ...ignorePath];
-    console.log(pathArray);
     const watchTask = () => {
         watch(pathArray, reload);
     };
