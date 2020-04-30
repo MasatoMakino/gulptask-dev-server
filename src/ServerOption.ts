@@ -1,5 +1,5 @@
 import * as path from "path";
-import { type } from "os";
+
 const fs = require("fs");
 const makeDir = require("make-dir");
 /**
