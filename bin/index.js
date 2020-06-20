@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.get = void 0;
 const ServerOption_1 = require("./ServerOption");
 const { watch, series } = require("gulp");
 const connect = require("gulp-connect-php");
@@ -16,33 +17,49 @@ const path = require("path");
 function get(base, option) {
     option = ServerOption_1.initOption(option, base);
     ServerOption_1.initBaseDir(option);
-    const server = done => {
+    const server = (done) => {
         portfinder.basePort = option.basePort;
         portfinder.highestPort = option.highestPort;
         portfinder
             .getPortPromise()
-            .then(port => {
+            .then((port) => {
             option.port = port;
             startServer(option, done);
         })
-            .catch(err => { });
+            .catch((err) => { });
     };
     const startServer = (option, done) => {
+        if (option.usePhpDevServer) {
+            startPhpServer(option, done);
+        }
+        else {
+            startBSServer(option, done);
+        }
+    };
+    const startPhpServer = (option, done) => {
         connect.server(option, () => {
             browserSync.init({
                 proxy: {
                     target: "localhost:" + option.port,
-                    middleware: [compress()]
-                }
+                    middleware: [compress()],
+                },
             }, done);
         });
     };
-    const reload = done => {
+    const startBSServer = (option, done) => {
+        browserSync.init({
+            server: {
+                baseDir: option.base,
+                port: option.port,
+            },
+        }, done);
+    };
+    const reload = (done) => {
         browserSync.reload();
         done();
     };
     const watchPath = path.resolve(option.base, "**/*");
-    const ignorePath = option.ignore.map(val => {
+    const ignorePath = option.ignore.map((val) => {
         return "!" + path.resolve(option.base, val);
     });
     const pathArray = [watchPath, ...ignorePath];

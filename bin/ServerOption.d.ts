@@ -11,5 +11,6 @@ export interface ServerOption {
     basePort?: number;
     highestPort?: number;
     ignore?: string | string[];
+    usePhpDevServer?: boolean;
 }
 //# sourceMappingURL=ServerOption.d.ts.map
