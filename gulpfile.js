@@ -1,3 +1,7 @@
 "use strict";
-const server = require("./bin").get("./dist", {ignore:"**/*.json"});
-exports.server = server;
+exports.server = require("./bin").get("./dist", { ignore: "**/*.json" });
+
+exports.server_without_php = require("./bin").get("./dist", {
+  ignore: "**/*.json",
+  usePhpDevServer: false,
+});
