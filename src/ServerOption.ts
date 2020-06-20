@@ -13,6 +13,7 @@ export function initOption(option: ServerOption, base: string): ServerOption {
   option.base = path.resolve(process.cwd(), base);
   option.basePort = option.basePort ?? 8000;
   option.highestPort = option.highestPort ?? 65535;
+  option.usePhpDevServer = option.usePhpDevServer ?? true;
 
   option.ignore = option.ignore ?? [];
   if (typeof option.ignore === "string") {
@@ -35,4 +36,5 @@ export interface ServerOption {
   basePort?: number;
   highestPort?: number;
   ignore?: string | string[];
+  usePhpDevServer?: boolean;
 }
