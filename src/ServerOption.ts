@@ -9,15 +9,12 @@ const makeDir = require("make-dir");
  */
 
 export function initOption(option: ServerOption, base: string): ServerOption {
-  if (option == null) option = {};
-
+  option = option ?? {};
   option.base = path.resolve(process.cwd(), base);
-  if (option.basePort == null) option.basePort = 8000;
-  if (option.highestPort == null) option.highestPort = 65535;
+  option.basePort = option.basePort ?? 8000;
+  option.highestPort = option.highestPort ?? 65535;
 
-  if (option.ignore == null) {
-    option.ignore = [];
-  }
+  option.ignore = option.ignore ?? [];
   if (typeof option.ignore === "string") {
     option.ignore = [option.ignore];
   }
