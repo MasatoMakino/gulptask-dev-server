@@ -49,9 +49,8 @@ function get(base, option) {
     const startBSServer = (option, done) => {
         browserSync.init({
             server: {
-                baseDir: option.base,
-                port: option.port,
-            },
+                baseDir: option.base
+            }
         }, done);
     };
     const reload = (done) => {

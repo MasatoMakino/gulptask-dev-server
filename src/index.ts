@@ -1,5 +1,4 @@
 "use strict";
-
 import { ServerOption, initOption, initBaseDir } from "./ServerOption";
 
 const { watch, series } = require("gulp");
@@ -57,9 +56,8 @@ export function get(base: string, option?: ServerOption): Function {
     browserSync.init(
       {
         server: {
-          baseDir: option.base,
-          port: option.port,
-        },
+          baseDir: option.base
+        }
       },
       done
     );
