@@ -24,7 +24,6 @@ export function get(base: string, option?: ServerOption): Function {
       option.browserSyncBasePort,
       option.browserSyncHighestPort
     );
-    console.log(option);
     startServer(option, done);
   };
 

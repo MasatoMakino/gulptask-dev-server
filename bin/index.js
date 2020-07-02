@@ -29,7 +29,6 @@ function get(base, option) {
     const server = (done) => __awaiter(this, void 0, void 0, function* () {
         option.port = yield getPort(option.basePort, option.highestPort);
         option.browserSyncPort = yield getPort(option.browserSyncBasePort, option.browserSyncHighestPort);
-        console.log(option);
         startServer(option, done);
     });
     const getPort = (basePort, highestPort) => __awaiter(this, void 0, void 0, function* () {
