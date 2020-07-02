@@ -18,16 +18,20 @@ export function get(base: string, option?: ServerOption): Function {
   option = initOption(option, base);
   initBaseDir(option);
 
-  const server = (done) => {
-    portfinder.basePort = option.basePort;
-    portfinder.highestPort = option.highestPort;
-    portfinder
-      .getPortPromise()
-      .then((port) => {
-        option.port = port;
-        startServer(option, done);
-      })
-      .catch((err) => {});
+  const server = async (done) => {
+    option.port = await getPort(option.basePort, option.highestPort);
+    option.browserSyncPort = await getPort(
+      option.browserSyncBasePort,
+      option.browserSyncHighestPort
+    );
+    console.log(option);
+    startServer(option, done);
+  };
+
+  const getPort = async (basePort, highestPort): Promise<number> => {
+    portfinder.basePort = basePort;
+    portfinder.highestPort = highestPort;
+    return await portfinder.getPortPromise();
   };
 
   const startServer = (option, done) => {
@@ -55,9 +59,8 @@ export function get(base: string, option?: ServerOption): Function {
   const startBSServer = (option, done) => {
     browserSync.init(
       {
-        server: {
-          baseDir: option.base
-        }
+        server: option.base,
+        port: option.browserSyncPort,
       },
       done
     );

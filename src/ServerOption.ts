@@ -13,6 +13,8 @@ export function initOption(option: ServerOption, base: string): ServerOption {
   option.base = path.resolve(process.cwd(), base);
   option.basePort = option.basePort ?? 8000;
   option.highestPort = option.highestPort ?? 65535;
+  option.browserSyncBasePort = option.browserSyncBasePort ?? 3000;
+  option.browserSyncHighestPort = option.browserSyncHighestPort ?? 65535;
   option.usePhpDevServer = option.usePhpDevServer ?? true;
 
   option.ignore = option.ignore ?? [];
@@ -33,8 +35,11 @@ export function initBaseDir(option: ServerOption) {
 export interface ServerOption {
   base?: string;
   port?: number;
+  browserSyncPort?:number;
   basePort?: number;
   highestPort?: number;
+  browserSyncBasePort?: number;
+  browserSyncHighestPort?: number;
   ignore?: string | string[];
   usePhpDevServer?: boolean;
 }
