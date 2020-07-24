@@ -2,12 +2,13 @@ import * as path from "path";
 
 const fs = require("fs");
 const makeDir = require("make-dir");
+const portfinder = require("portfinder");
+
 /**
  * オプションの初期化
  * @param option
  * @param base
  */
-
 export function initOption(option: ServerOption, base: string): ServerOption {
   option = option ?? {};
   option.base = path.resolve(process.cwd(), base);
@@ -25,6 +26,11 @@ export function initOption(option: ServerOption, base: string): ServerOption {
   return option;
 }
 
+/**
+ * オプション内にある監視先フォルダを初期化する。
+ * 存在しない場合はディレクトリを生成する。
+ * @param option
+ */
 export function initBaseDir(option: ServerOption) {
   const isExistBase = fs.existsSync(option.base);
   if (!isExistBase) {
@@ -32,10 +38,31 @@ export function initBaseDir(option: ServerOption) {
   }
 }
 
+/**
+ * Option内のポート番号を、範囲指定に従い更新する。
+ * @param option
+ */
+export async function updatePort(option: ServerOption) {
+  option.port = await getPort(option.basePort, option.highestPort);
+  option.browserSyncPort = await getPort(
+    option.browserSyncBasePort,
+    option.browserSyncHighestPort
+  );
+}
+
+async function getPort(
+  basePort: number,
+  highestPort: number
+): Promise<number> {
+  portfinder.basePort = basePort;
+  portfinder.highestPort = highestPort;
+  return portfinder.getPortPromise();
+}
+
 export interface ServerOption {
   base?: string;
   port?: number;
-  browserSyncPort?:number;
+  browserSyncPort?: number;
   basePort?: number;
   highestPort?: number;
   browserSyncBasePort?: number;
