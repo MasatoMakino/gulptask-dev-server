@@ -1,12 +1,12 @@
 "use strict";
-import { ServerOption, initOption, initBaseDir } from "./ServerOption";
-
-const { watch, series } = require("gulp");
+const { series } = require("gulp");
 const connect = require("gulp-connect-php");
 const browserSync = require("browser-sync").create();
 const compress = require("compression");
 const portfinder = require("portfinder");
-const path = require("path");
+
+import { getWatch } from "./Watch";
+import { ServerOption, initOption, initBaseDir } from "./ServerOption";
 
 /**
  * サーバー開始およびリロードタスクを取得する。
@@ -30,7 +30,7 @@ export function get(base: string, option?: ServerOption): Function {
   const getPort = async (basePort, highestPort): Promise<number> => {
     portfinder.basePort = basePort;
     portfinder.highestPort = highestPort;
-    return await portfinder.getPortPromise();
+    return portfinder.getPortPromise();
   };
 
   const startServer = (option, done) => {
@@ -65,20 +65,5 @@ export function get(base: string, option?: ServerOption): Function {
     );
   };
 
-  const reload = (done) => {
-    browserSync.reload();
-    done();
-  };
-
-  const watchPath = path.resolve(option.base, "**/*");
-  const ignorePath = (option.ignore as string[]).map((val) => {
-    return "!" + path.resolve(option.base, val);
-  });
-  const pathArray = [watchPath, ...ignorePath];
-
-  const watchTask = () => {
-    watch(pathArray, reload);
-  };
-
-  return series(server, watchTask);
+  return series(server, getWatch(browserSync, option));
 }
