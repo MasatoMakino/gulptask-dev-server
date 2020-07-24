@@ -18,11 +18,21 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.initBaseDir = exports.initOption = void 0;
+exports.updatePort = exports.initBaseDir = exports.initOption = void 0;
 const path = __importStar(require("path"));
 const fs = require("fs");
 const makeDir = require("make-dir");
+const portfinder = require("portfinder");
 /**
  * オプションの初期化
  * @param option
@@ -44,6 +54,11 @@ function initOption(option, base) {
     return option;
 }
 exports.initOption = initOption;
+/**
+ * オプション内にある監視先フォルダを初期化する。
+ * 存在しない場合はディレクトリを生成する。
+ * @param option
+ */
 function initBaseDir(option) {
     const isExistBase = fs.existsSync(option.base);
     if (!isExistBase) {
@@ -51,3 +66,21 @@ function initBaseDir(option) {
     }
 }
 exports.initBaseDir = initBaseDir;
+/**
+ * Option内のポート番号を、範囲指定に従い更新する。
+ * @param option
+ */
+function updatePort(option) {
+    return __awaiter(this, void 0, void 0, function* () {
+        option.port = yield getPort(option.basePort, option.highestPort);
+        option.browserSyncPort = yield getPort(option.browserSyncBasePort, option.browserSyncHighestPort);
+    });
+}
+exports.updatePort = updatePort;
+function getPort(basePort, highestPort) {
+    return __awaiter(this, void 0, void 0, function* () {
+        portfinder.basePort = basePort;
+        portfinder.highestPort = highestPort;
+        return portfinder.getPortPromise();
+    });
+}

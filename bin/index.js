@@ -10,13 +10,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.get = void 0;
-const ServerOption_1 = require("./ServerOption");
-const { watch, series } = require("gulp");
-const connect = require("gulp-connect-php");
+const { series } = require("gulp");
 const browserSync = require("browser-sync").create();
-const compress = require("compression");
-const portfinder = require("portfinder");
-const path = require("path");
+const Server_1 = require("./Server");
+const Watch_1 = require("./Watch");
+const ServerOption_1 = require("./ServerOption");
 /**
  * サーバー開始およびリロードタスクを取得する。
  * @param base - webサーバーのルートになるディレクトリ
@@ -26,52 +24,11 @@ const path = require("path");
 function get(base, option) {
     option = ServerOption_1.initOption(option, base);
     ServerOption_1.initBaseDir(option);
-    const server = (done) => __awaiter(this, void 0, void 0, function* () {
-        option.port = yield getPort(option.basePort, option.highestPort);
-        option.browserSyncPort = yield getPort(option.browserSyncBasePort, option.browserSyncHighestPort);
-        startServer(option, done);
+    const server = () => __awaiter(this, void 0, void 0, function* () {
+        yield ServerOption_1.updatePort(option);
+        yield Server_1.startServer(browserSync, option);
+        return;
     });
-    const getPort = (basePort, highestPort) => __awaiter(this, void 0, void 0, function* () {
-        portfinder.basePort = basePort;
-        portfinder.highestPort = highestPort;
-        return yield portfinder.getPortPromise();
-    });
-    const startServer = (option, done) => {
-        if (option.usePhpDevServer) {
-            startPhpServer(option, done);
-        }
-        else {
-            startBSServer(option, done);
-        }
-    };
-    const startPhpServer = (option, done) => {
-        connect.server(option, () => {
-            browserSync.init({
-                proxy: {
-                    target: "localhost:" + option.port,
-                    middleware: [compress()],
-                },
-            }, done);
-        });
-    };
-    const startBSServer = (option, done) => {
-        browserSync.init({
-            server: option.base,
-            port: option.browserSyncPort,
-        }, done);
-    };
-    const reload = (done) => {
-        browserSync.reload();
-        done();
-    };
-    const watchPath = path.resolve(option.base, "**/*");
-    const ignorePath = option.ignore.map((val) => {
-        return "!" + path.resolve(option.base, val);
-    });
-    const pathArray = [watchPath, ...ignorePath];
-    const watchTask = () => {
-        watch(pathArray, reload);
-    };
-    return series(server, watchTask);
+    return series(server, Watch_1.getWatch(browserSync, option));
 }
 exports.get = get;
