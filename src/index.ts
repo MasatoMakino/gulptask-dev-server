@@ -12,12 +12,20 @@ import {
 } from "./ServerOption";
 
 /**
- * サーバー開始およびリロードタスクを取得する。
- * @param base - webサーバーのルートになるディレクトリ
- * @param [option]
- * @return {{server: server, reload: reload}}
+ * @deprecated Use generateTask
+ * @param base
+ * @param option
  */
 export function get(base: string, option?: ServerOption): Function {
+  return generateTask(base, option);
+}
+
+/**
+ * サーバー開始およびリロードタスクを取得する。
+ * @param base webサーバーのルートになるディレクトリ
+ * @param option
+ */
+export function generateTask(base: string, option?: ServerOption): Function {
   option = initOption(option, base);
   initBaseDir(option);
 
