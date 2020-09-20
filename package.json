@@ -1,6 +1,6 @@
 {
   "name": "gulptask-dev-server",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "main": "./bin/index.js",
   "types": "./bin/index.d.ts",
   "repository": "https://MasatoMakino@github.com/MasatoMakino/gulptask-dev-server.git",
