@@ -14,7 +14,7 @@ var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
     __setModuleDefault(result, mod);
     return result;
 };
@@ -40,14 +40,14 @@ const portfinder = require("portfinder");
  */
 function initOption(option, base) {
     var _a, _b, _c, _d, _e, _f;
-    option = option !== null && option !== void 0 ? option : {};
+    option !== null && option !== void 0 ? option : (option = {});
     option.base = path.resolve(process.cwd(), base);
-    option.basePort = (_a = option.basePort) !== null && _a !== void 0 ? _a : 8000;
-    option.highestPort = (_b = option.highestPort) !== null && _b !== void 0 ? _b : 65535;
-    option.browserSyncBasePort = (_c = option.browserSyncBasePort) !== null && _c !== void 0 ? _c : 3000;
-    option.browserSyncHighestPort = (_d = option.browserSyncHighestPort) !== null && _d !== void 0 ? _d : 65535;
-    option.usePhpDevServer = (_e = option.usePhpDevServer) !== null && _e !== void 0 ? _e : true;
-    option.ignore = (_f = option.ignore) !== null && _f !== void 0 ? _f : [];
+    (_a = option.basePort) !== null && _a !== void 0 ? _a : (option.basePort = 8000);
+    (_b = option.highestPort) !== null && _b !== void 0 ? _b : (option.highestPort = 65535);
+    (_c = option.browserSyncBasePort) !== null && _c !== void 0 ? _c : (option.browserSyncBasePort = 3000);
+    (_d = option.browserSyncHighestPort) !== null && _d !== void 0 ? _d : (option.browserSyncHighestPort = 65535);
+    (_e = option.usePhpDevServer) !== null && _e !== void 0 ? _e : (option.usePhpDevServer = true);
+    (_f = option.ignore) !== null && _f !== void 0 ? _f : (option.ignore = []);
     if (typeof option.ignore === "string") {
         option.ignore = [option.ignore];
     }
