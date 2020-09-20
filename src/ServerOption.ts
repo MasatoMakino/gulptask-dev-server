@@ -10,15 +10,15 @@ const portfinder = require("portfinder");
  * @param base
  */
 export function initOption(option: ServerOption, base: string): ServerOption {
-  option = option ?? {};
+  option ??= {};
   option.base = path.resolve(process.cwd(), base);
-  option.basePort = option.basePort ?? 8000;
-  option.highestPort = option.highestPort ?? 65535;
-  option.browserSyncBasePort = option.browserSyncBasePort ?? 3000;
-  option.browserSyncHighestPort = option.browserSyncHighestPort ?? 65535;
-  option.usePhpDevServer = option.usePhpDevServer ?? true;
+  option.basePort ??= 8000;
+  option.highestPort ??= 65535;
+  option.browserSyncBasePort ??= 3000;
+  option.browserSyncHighestPort ??= 65535;
+  option.usePhpDevServer ??= true;
 
-  option.ignore = option.ignore ?? [];
+  option.ignore ??= [];
   if (typeof option.ignore === "string") {
     option.ignore = [option.ignore];
   }
@@ -50,10 +50,7 @@ export async function updatePort(option: ServerOption) {
   );
 }
 
-async function getPort(
-  basePort: number,
-  highestPort: number
-): Promise<number> {
+async function getPort(basePort: number, highestPort: number): Promise<number> {
   portfinder.basePort = basePort;
   portfinder.highestPort = highestPort;
   return portfinder.getPortPromise();
