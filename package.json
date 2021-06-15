@@ -6,6 +6,9 @@
   "repository": "https://MasatoMakino@github.com/MasatoMakino/gulptask-dev-server.git",
   "author": "MasatoMakino <unagiinu.g@gmail.com>",
   "license": "MIT",
+  "files": [
+    "bin"
+  ],
   "dependencies": {
     "browser-sync": "^2.26.14",
     "compression": "^1.7.4",
