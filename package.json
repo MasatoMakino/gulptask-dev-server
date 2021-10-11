@@ -13,7 +13,6 @@
     "browser-sync": "^2.27.5",
     "compression": "^1.7.4",
     "gulp": "^4.0.2",
-    "gulp-connect-php": "^1.0.3",
     "make-dir": "^3.1.0",
     "portfinder": "^1.0.28"
   },
@@ -26,6 +25,6 @@
     "build": "npx tsc",
     "dev": "npx tsc -w",
     "run": "gulp server",
-    "run_without_php": "gulp server_without_php"
+    "run_with_php": "gulp server_with_php"
   }
 }
