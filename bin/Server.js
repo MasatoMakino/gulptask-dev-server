@@ -10,8 +10,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.startServer = void 0;
+const { exec } = require("child_process");
 const compress = require("compression");
-const connect = require("gulp-connect-php");
 /**
  * optionに従い、PHPサーバーかbrowserSyncのいずれかを起動する。
  * @param browserSync
@@ -34,16 +34,27 @@ exports.startServer = startServer;
  * @param option
  */
 function startPhpServer(browserSync, option) {
-    return new Promise((resolve) => {
-        connect.server(option, () => {
-            browserSync.init({
-                proxy: {
-                    target: "localhost:" + option.port,
-                    middleware: [compress()],
-                },
-            }, () => {
-                resolve();
-            });
+    return new Promise((resolve, reject) => {
+        const process = exec(`php -S 127.0.0.1:${option.port} -t ${option.base}`, () => { });
+        process.stderr.on("data", (chunk) => {
+            const isStartedMessage = /\)\sstarted$/.test(chunk.trim());
+            if (isStartedMessage) {
+                browserSync.init({
+                    proxy: {
+                        target: "localhost:" + option.port,
+                        middleware: [compress()],
+                    },
+                    port: option.browserSyncPort,
+                }, () => {
+                    resolve();
+                });
+            }
+            const failMessage = /Failed\s+to\s+listen\s+on/.test(chunk.trim());
+            if (failMessage) {
+                console.warn(chunk.trim());
+                reject();
+            }
+            console.log(chunk.trim());
         });
     });
 }

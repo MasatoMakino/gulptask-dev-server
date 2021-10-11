@@ -46,7 +46,7 @@ function initOption(option, base) {
     (_b = option.highestPort) !== null && _b !== void 0 ? _b : (option.highestPort = 65535);
     (_c = option.browserSyncBasePort) !== null && _c !== void 0 ? _c : (option.browserSyncBasePort = 3000);
     (_d = option.browserSyncHighestPort) !== null && _d !== void 0 ? _d : (option.browserSyncHighestPort = 65535);
-    (_e = option.usePhpDevServer) !== null && _e !== void 0 ? _e : (option.usePhpDevServer = true);
+    (_e = option.usePhpDevServer) !== null && _e !== void 0 ? _e : (option.usePhpDevServer = false);
     (_f = option.ignore) !== null && _f !== void 0 ? _f : (option.ignore = []);
     if (typeof option.ignore === "string") {
         option.ignore = [option.ignore];
