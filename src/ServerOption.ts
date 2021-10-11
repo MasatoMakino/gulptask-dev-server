@@ -16,7 +16,7 @@ export function initOption(option: ServerOption, base: string): ServerOption {
   option.highestPort ??= 65535;
   option.browserSyncBasePort ??= 3000;
   option.browserSyncHighestPort ??= 65535;
-  option.usePhpDevServer ??= true;
+  option.usePhpDevServer ??= false;
 
   option.ignore ??= [];
   if (typeof option.ignore === "string") {

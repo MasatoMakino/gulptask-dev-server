@@ -1,5 +1,5 @@
+const { exec } = require("child_process");
 const compress = require("compression");
-const connect = require("gulp-connect-php");
 import { ServerOption } from "./ServerOption";
 
 /**
@@ -21,19 +21,35 @@ export async function startServer(browserSync, option: ServerOption) {
  * @param option
  */
 function startPhpServer(browserSync, option: ServerOption): Promise<void> {
-  return new Promise((resolve) => {
-    connect.server(option, () => {
-      browserSync.init(
-        {
-          proxy: {
-            target: "localhost:" + option.port,
-            middleware: [compress()],
+  return new Promise((resolve, reject) => {
+    const process = exec(
+      `php -S 127.0.0.1:${option.port} -t ${option.base}`,
+      () => {}
+    );
+    process.stderr.on("data", (chunk) => {
+      const isStartedMessage = /\)\sstarted$/.test(chunk.trim());
+      if (isStartedMessage) {
+        browserSync.init(
+          {
+            proxy: {
+              target: "localhost:" + option.port,
+              middleware: [compress()],
+            },
+            port: option.browserSyncPort,
           },
-        },
-        () => {
-          resolve();
-        }
-      );
+          () => {
+            resolve();
+          }
+        );
+      }
+
+      const failMessage = /Failed\s+to\s+listen\s+on/.test(chunk.trim());
+      if (failMessage) {
+        console.warn(chunk.trim());
+        reject();
+      }
+
+      console.log(chunk.trim());
     });
   });
 }
