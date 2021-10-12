@@ -30,13 +30,13 @@ exports.get = get;
  * @param option
  */
 function generateTask(base, option) {
-    option = ServerOption_1.initOption(option, base);
-    ServerOption_1.initBaseDir(option);
+    option = (0, ServerOption_1.initOption)(option, base);
+    (0, ServerOption_1.initBaseDir)(option);
     const server = () => __awaiter(this, void 0, void 0, function* () {
-        yield ServerOption_1.updatePort(option);
-        yield Server_1.startServer(browserSync, option);
+        yield (0, ServerOption_1.updatePort)(option);
+        yield (0, Server_1.startServer)(browserSync, option);
         return;
     });
-    return series(server, Watch_1.getWatch(browserSync, option));
+    return series(server, (0, Watch_1.getWatch)(browserSync, option));
 }
 exports.generateTask = generateTask;
