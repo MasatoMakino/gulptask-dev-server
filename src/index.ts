@@ -17,17 +17,18 @@ import {
  */
 export function generateTask(base: string, option?: ServerOption): Function {
   option = initOption(option, base);
-  initBaseDir(option);
 
   const server = async () => {
+    await initBaseDir(option);
     await updatePort(option);
     await startServer(browserSync, option);
     return;
   };
 
   return async () => {
-    const watchTask = getWatch(browserSync, option);
     await server();
+
+    const watchTask = getWatch(browserSync, option);
     await watchTask();
     return;
   };

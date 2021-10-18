@@ -12,7 +12,6 @@
   "dependencies": {
     "browser-sync": "^2.27.5",
     "compression": "^1.7.4",
-    "make-dir": "^3.1.0",
     "portfinder": "^1.0.28"
   },
   "devDependencies": {
@@ -22,8 +21,6 @@
   },
   "scripts": {
     "build": "npx tsc",
-    "dev": "npx tsc -w",
-    "run": "gulp server",
-    "run_with_php": "gulp server_with_php"
+    "dev": "npx tsc -w"
   }
 }

@@ -1,7 +1,6 @@
 import * as path from "path";
 
 const fs = require("fs");
-const makeDir = require("make-dir");
 const portfinder = require("portfinder");
 
 /**
@@ -31,10 +30,13 @@ export function initOption(option: ServerOption, base: string): ServerOption {
  * 存在しない場合はディレクトリを生成する。
  * @param option
  */
-export function initBaseDir(option: ServerOption) {
+export async function initBaseDir(option: ServerOption) {
   const isExistBase = fs.existsSync(option.base);
   if (!isExistBase) {
-    makeDir.sync(option.base);
+    await fs.promises.mkdir(option.base, { recursive: true });
+    console.warn(
+      `[Warning] Missing the directory specified by 'option.base'. This task make a directory ${option.base}.`
+    );
   }
 }
 
