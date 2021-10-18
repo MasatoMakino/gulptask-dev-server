@@ -11,13 +11,12 @@
   ],
   "dependencies": {
     "browser-sync": "^2.27.5",
-    "compression": "^1.7.4",
     "portfinder": "^1.0.28"
   },
   "devDependencies": {
-    "@types/node": "^16.10.3",
+    "@types/node": "^16.11.1",
     "prettier": "^2.4.1",
-    "typescript": "^4.4.3"
+    "typescript": "^4.4.4"
   },
   "scripts": {
     "build": "npx tsc",

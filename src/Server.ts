@@ -1,5 +1,4 @@
 const { exec } = require("child_process");
-const compress = require("compression");
 import { ServerGenerationOption } from "./ServerOption";
 
 /**
@@ -36,7 +35,6 @@ function startPhpServer(
           {
             proxy: {
               target: "localhost:" + option.phpPort,
-              middleware: [compress()],
             },
             port: option.browserSyncPort,
           },

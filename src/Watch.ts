@@ -1,6 +1,5 @@
 "use strict";
 import {ServerGenerationOption} from "./ServerOption";
-
 const path = require("path");
 
 export function getWatch(
