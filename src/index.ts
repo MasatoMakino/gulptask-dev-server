@@ -1,5 +1,4 @@
 "use strict";
-const { series } = require("gulp");
 const browserSync = require("browser-sync").create();
 
 import { startServer } from "./Server";
@@ -10,15 +9,6 @@ import {
   initBaseDir,
   updatePort,
 } from "./ServerOption";
-
-/**
- * @deprecated Use generateTask
- * @param base
- * @param option
- */
-export function get(base: string, option?: ServerOption): Function {
-  return generateTask(base, option);
-}
 
 /**
  * サーバー開始およびリロードタスクを取得する。
@@ -35,5 +25,10 @@ export function generateTask(base: string, option?: ServerOption): Function {
     return;
   };
 
-  return series(server, getWatch(browserSync, option));
+  return async () => {
+    const watchTask = getWatch(browserSync, option);
+    await server();
+    await watchTask();
+    return;
+  };
 }
