@@ -3,6 +3,9 @@
   "version": "0.3.1",
   "main": "./bin/index.js",
   "types": "./bin/index.d.ts",
+  "bin": {
+    "gulptask-dev-server": "./bin/CLI.js"
+  },
   "repository": "https://MasatoMakino@github.com/MasatoMakino/gulptask-dev-server.git",
   "author": "MasatoMakino <unagiinu.g@gmail.com>",
   "license": "MIT",
@@ -11,6 +14,7 @@
   ],
   "dependencies": {
     "browser-sync": "^2.27.5",
+    "commander": "^8.2.0",
     "portfinder": "^1.0.28"
   },
   "devDependencies": {
