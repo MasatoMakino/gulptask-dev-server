@@ -63,7 +63,7 @@ export interface InitOption {
  */
 export interface ServerGenerationOption {
   base: string;
-  phpPort?: number;
+  phpPort: number;
   browserSyncPort: number;
 
   ignore: string | string[];
