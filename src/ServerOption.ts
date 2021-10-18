@@ -1,55 +1,46 @@
 import * as path from "path";
-
 const fs = require("fs");
 const portfinder = require("portfinder");
+const HIGHEST_PORT = 65535;
 
 /**
  * オプションの初期化
  * @param option
  * @param base
  */
-export function initOption(option: ServerOption, base: string): ServerOption {
-  option ??= {};
-  option.base = path.resolve(process.cwd(), base);
-  option.basePort ??= 8000;
-  option.highestPort ??= 65535;
-  option.browserSyncBasePort ??= 3000;
-  option.browserSyncHighestPort ??= 65535;
-  option.usePhpDevServer ??= false;
+export async function initOption(
+  option: InitOption,
+  base: string
+): Promise<ServerGenerationOption> {
+  return {
+    base: path.resolve(process.cwd(), base),
+    phpPort: await getPort(8000, HIGHEST_PORT),
+    browserSyncPort: await getPort(3000, HIGHEST_PORT),
+    ignore: generateIgnore(option),
+    usePhpDevServer: option.usePhpDevServer ?? false,
+  };
+}
 
-  option.ignore ??= [];
+function generateIgnore(option: InitOption): string[] {
   if (typeof option.ignore === "string") {
     option.ignore = [option.ignore];
   }
-
-  return option;
+  return option.ignore ?? [];
 }
 
 /**
  * オプション内にある監視先フォルダを初期化する。
  * 存在しない場合はディレクトリを生成する。
- * @param option
+ * @param base
  */
-export async function initBaseDir(option: ServerOption) {
-  const isExistBase = fs.existsSync(option.base);
+export async function initBaseDir(base: string) {
+  const isExistBase = fs.existsSync(base);
   if (!isExistBase) {
-    await fs.promises.mkdir(option.base, { recursive: true });
+    await fs.promises.mkdir(base, { recursive: true });
     console.warn(
-      `[Warning] Missing the directory specified by 'option.base'. This task make a directory ${option.base}.`
+      `[Warning] Missing the directory specified by 'option.base'. This task make a directory ${base}.`
     );
   }
-}
-
-/**
- * Option内のポート番号を、範囲指定に従い更新する。
- * @param option
- */
-export async function updatePort(option: ServerOption) {
-  option.port = await getPort(option.basePort, option.highestPort);
-  option.browserSyncPort = await getPort(
-    option.browserSyncBasePort,
-    option.browserSyncHighestPort
-  );
 }
 
 async function getPort(basePort: number, highestPort: number): Promise<number> {
@@ -58,14 +49,23 @@ async function getPort(basePort: number, highestPort: number): Promise<number> {
   return portfinder.getPortPromise();
 }
 
-export interface ServerOption {
-  base?: string;
-  port?: number;
-  browserSyncPort?: number;
-  basePort?: number;
-  highestPort?: number;
-  browserSyncBasePort?: number;
-  browserSyncHighestPort?: number;
+/**
+ * タスク起動オプション
+ */
+export interface InitOption {
   ignore?: string | string[];
   usePhpDevServer?: boolean;
+}
+
+/**
+ * サーバーを生成するオプション
+ * InitOptionから生成される
+ */
+export interface ServerGenerationOption {
+  base: string;
+  phpPort?: number;
+  browserSyncPort: number;
+
+  ignore: string | string[];
+  usePhpDevServer: boolean;
 }
