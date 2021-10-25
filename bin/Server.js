@@ -11,7 +11,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.startServer = void 0;
 const { exec } = require("child_process");
-const compress = require("compression");
 /**
  * optionに従い、PHPサーバーかbrowserSyncのいずれかを起動する。
  * @param browserSync
@@ -35,14 +34,13 @@ exports.startServer = startServer;
  */
 function startPhpServer(browserSync, option) {
     return new Promise((resolve, reject) => {
-        const process = exec(`php -S 127.0.0.1:${option.port} -t ${option.base}`, () => { });
+        const process = exec(`php -S 127.0.0.1:${option.phpPort} -t ${option.base}`, () => { });
         process.stderr.on("data", (chunk) => {
             const isStartedMessage = /\)\sstarted$/.test(chunk.trim());
             if (isStartedMessage) {
                 browserSync.init({
                     proxy: {
-                        target: "localhost:" + option.port,
-                        middleware: [compress()],
+                        target: "localhost:" + option.phpPort,
                     },
                     port: option.browserSyncPort,
                 }, () => {

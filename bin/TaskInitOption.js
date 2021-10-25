@@ -39,15 +39,18 @@ const HIGHEST_PORT = 65535;
  * @param base
  */
 function initOption(option, base) {
-    var _a;
+    var _a, _b, _c;
     return __awaiter(this, void 0, void 0, function* () {
-        return {
+        const generation = {
             base: path.resolve(process.cwd(), base),
-            phpPort: yield getPort(8000, HIGHEST_PORT),
-            browserSyncPort: yield getPort(3000, HIGHEST_PORT),
+            browserSyncPort: yield getPort((_a = option.browserSyncBasePort) !== null && _a !== void 0 ? _a : 3000, HIGHEST_PORT),
             ignore: generateIgnore(option),
-            usePhpDevServer: (_a = option.usePhpDevServer) !== null && _a !== void 0 ? _a : false,
+            usePhpDevServer: (_b = option.usePhpDevServer) !== null && _b !== void 0 ? _b : false,
         };
+        if (generation.usePhpDevServer) {
+            generation.phpPort = yield getPort((_c = option.phpBasePort) !== null && _c !== void 0 ? _c : 8000, HIGHEST_PORT);
+        }
+        return generation;
     });
 }
 exports.initOption = initOption;
