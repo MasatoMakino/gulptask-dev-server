@@ -1,13 +1,12 @@
 const { exec } = require("child_process");
-const compress = require("compression");
-import { ServerOption } from "./ServerOption";
+import { ServerGenerationOption } from "./ServerOption";
 
 /**
  * optionに従い、PHPサーバーかbrowserSyncのいずれかを起動する。
  * @param browserSync
  * @param option
  */
-export async function startServer(browserSync, option: ServerOption) {
+export async function startServer(browserSync, option: ServerGenerationOption) {
   if (option.usePhpDevServer) {
     await startPhpServer(browserSync, option);
   } else {
@@ -20,10 +19,13 @@ export async function startServer(browserSync, option: ServerOption) {
  * @param browserSync
  * @param option
  */
-function startPhpServer(browserSync, option: ServerOption): Promise<void> {
+function startPhpServer(
+  browserSync,
+  option: ServerGenerationOption
+): Promise<void> {
   return new Promise((resolve, reject) => {
     const process = exec(
-      `php -S 127.0.0.1:${option.port} -t ${option.base}`,
+      `php -S 127.0.0.1:${option.phpPort} -t ${option.base}`,
       () => {}
     );
     process.stderr.on("data", (chunk) => {
@@ -32,8 +34,7 @@ function startPhpServer(browserSync, option: ServerOption): Promise<void> {
         browserSync.init(
           {
             proxy: {
-              target: "localhost:" + option.port,
-              middleware: [compress()],
+              target: "localhost:" + option.phpPort,
             },
             port: option.browserSyncPort,
           },
@@ -54,7 +55,10 @@ function startPhpServer(browserSync, option: ServerOption): Promise<void> {
   });
 }
 
-function startBSServer(browserSync, option: ServerOption): Promise<void> {
+function startBSServer(
+  browserSync,
+  option: ServerGenerationOption
+): Promise<void> {
   return new Promise((resolve) => {
     browserSync.init(
       {

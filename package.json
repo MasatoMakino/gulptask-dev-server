@@ -3,6 +3,9 @@
   "version": "0.3.1",
   "main": "./bin/index.js",
   "types": "./bin/index.d.ts",
+  "bin": {
+    "gulptask-dev-server": "./bin/CLI.js"
+  },
   "repository": "https://MasatoMakino@github.com/MasatoMakino/gulptask-dev-server.git",
   "author": "MasatoMakino <unagiinu.g@gmail.com>",
   "license": "MIT",
@@ -11,20 +14,16 @@
   ],
   "dependencies": {
     "browser-sync": "^2.27.5",
-    "compression": "^1.7.4",
-    "gulp": "^4.0.2",
-    "make-dir": "^3.1.0",
+    "commander": "^8.2.0",
     "portfinder": "^1.0.28"
   },
   "devDependencies": {
-    "@types/node": "^16.10.3",
+    "@types/node": "^16.11.1",
     "prettier": "^2.4.1",
-    "typescript": "^4.4.3"
+    "typescript": "^4.4.4"
   },
   "scripts": {
     "build": "npx tsc",
-    "dev": "npx tsc -w",
-    "run": "gulp server",
-    "run_with_php": "gulp server_with_php"
+    "dev": "npx tsc -w"
   }
 }
