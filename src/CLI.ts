@@ -3,6 +3,7 @@
 import { Command, Option } from "commander";
 import { generateTask } from "./index";
 import { InitOption } from "./ServerOption";
+
 const program = new Command();
 
 program
