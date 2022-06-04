@@ -1,1 +1,1 @@
-{"version":3,"file":"Watch.d.ts","sourceRoot":"","sources":["../src/Watch.ts"],"names":[],"mappings":"AACA,OAAO,EAAC,sBAAsB,EAAC,MAAM,gBAAgB,CAAC;AAGtD,wBAAgB,QAAQ,CACtB,WAAW,KAAA,EACX,MAAM,EAAE,sBAAsB,GAC7B,QAAQ,CAUV"}
+{"version":3,"file":"Watch.d.ts","sourceRoot":"","sources":["../src/Watch.ts"],"names":[],"mappings":"AACA,OAAO,EAAE,sBAAsB,EAAE,MAAM,gBAAgB,CAAC;AAIxD,wBAAgB,QAAQ,CACtB,WAAW,KAAA,EACX,MAAM,EAAE,sBAAsB,GAC7B,QAAQ,CAUV"}
