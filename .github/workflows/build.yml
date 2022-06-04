@@ -10,11 +10,14 @@
 name: Build JavaScript binary
 
 on:
-  workflow_run:
-    workflows: ["CI_Main"]
+  push:
     branches: [main]
-    types:
-      - completed
+    paths:
+      - "src/**"
+      - "demoSrc/**"
+      - "package.json"
+      - "README.md"
+      - "tsconfig**.json"
 
 jobs:
   build:
