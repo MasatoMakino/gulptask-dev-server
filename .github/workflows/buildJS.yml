@@ -12,33 +12,21 @@ name: Build JavaScript binary
 on:
   push:
     branches: [main]
-    paths:
-      - "src/**"
-      - "demoSrc/**"
-      - "package.json"
-      - "README.md"
-      - "tsconfig**.json"
+  pull_request:
+    branches: [main]
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [ 16.x, 18.x ]
     steps:
       - uses: actions/checkout@v2
-      - name: Use Node.js
+      - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v2
         with:
-          node-version: "16"
+          node-version: ${{ matrix.node-version }}
           cache: "npm"
       - run: npm ci
-      - name: build binary
-        run: npx tsc
-      - name: push dist
-        run: |
-          git remote set-url origin https://github-actions:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}
-          git config --global user.name "${GITHUB_ACTOR}"
-          git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
-          if (git diff --shortstat HEAD | grep '[0-9]'); then
-            git add .
-            git commit -m "Build binary by github-actions"
-            git push origin HEAD:${GITHUB_REF}
-          fi
+      - run: npm run build
