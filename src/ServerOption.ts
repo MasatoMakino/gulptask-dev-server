@@ -10,23 +10,23 @@ const HIGHEST_PORT = 65535;
  * @param base
  */
 export async function initOption(
-  option: InitOption,
+  option: InitOption | undefined | null,
   base: string
 ): Promise<ServerGenerationOption> {
   return {
     base: path.resolve(process.cwd(), base),
     phpPort: await getPort(8000, HIGHEST_PORT),
     browserSyncPort: await getPort(3000, HIGHEST_PORT),
-    ignore: generateIgnore(option),
-    usePhpDevServer: option.usePhpDevServer ?? false,
+    ignore: generateIgnore(option?.ignore),
+    usePhpDevServer: option?.usePhpDevServer ?? false,
   };
 }
 
-function generateIgnore(option: InitOption): string[] {
-  if (typeof option.ignore === "string") {
-    option.ignore = [option.ignore];
+function generateIgnore(ignore?: string | string[]): string[] {
+  if (typeof ignore === "string") {
+    return [ignore];
   }
-  return option.ignore ?? [];
+  return ignore ?? [];
 }
 
 /**
