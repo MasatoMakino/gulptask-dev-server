@@ -1,13 +1,4 @@
-# JSビルドプロセス
-# ビルド後に直接mainブランチへコンパイルされたJSをpushするパターン
-#
-# デメリット
-#   コンパイル済みファイルはgit管理下から外せない
-#   mainプッシュ後にpullしないとコンフリクトが発生する
-# メリット
-#   リポジトリURLを変更しなくても運用可能
-
-name: Build JavaScript binary
+name: Build
 
 on:
   push:
@@ -22,11 +13,12 @@ jobs:
       matrix:
         node-version: [ 16.x, 18.x ]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
       - run: npm ci
       - run: npm run build
+      - run: npm run testRun
