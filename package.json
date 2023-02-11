@@ -28,7 +28,7 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsc -w",
-    "testRun": "node bin/CLI.js -b sample"
+    "testRun": "node bin/CLI.js --help"
   },
   "description": "browser-sync wrapper for gulp.",
   "bugs": {
