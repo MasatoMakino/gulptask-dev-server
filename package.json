@@ -28,7 +28,9 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsc -w",
-    "testRun": "node bin/CLI.js --help"
+    "preversion": "git checkout main && git pull && npm run testRun",
+    "testRun": "node bin/CLI.js --help",
+    "runCLI": "node bin/CLI.js --base sample"
   },
   "description": "browser-sync wrapper for gulp.",
   "bugs": {
