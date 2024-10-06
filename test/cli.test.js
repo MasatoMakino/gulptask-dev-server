@@ -16,3 +16,26 @@ test("CLI help command should execute successfully", async () => {
     });
   });
 });
+
+
+test("gulptask-dev-server command should start server and wait", async () => {
+  await new Promise((resolve, reject) => {
+    const process = exec(
+      "node bin/CLI.js --base sample",
+      (error, stdout, stderr) => {
+        try {
+          assert.strictEqual(stderr, "");
+          assert(stdout.includes("Serving files from:"));
+          resolve();
+        } catch (err) {
+          reject(err);
+        }
+      },
+    );
+
+    //3秒後にプロセスをkillする。それまでにエラーが出なければ成功
+    setTimeout(() => {
+      process.kill();
+    }, 3_000);
+  });
+});
