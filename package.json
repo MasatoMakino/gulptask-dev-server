@@ -26,6 +26,7 @@
     "typescript": "^5.0.4"
   },
   "scripts": {
+    "test": "npm run build && node --test",
     "build": "tsc",
     "dev": "tsc -w",
     "preversion": "git checkout main && git pull && npm run testRun",
