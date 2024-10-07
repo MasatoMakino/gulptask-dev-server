@@ -1,13 +1,13 @@
-const test = require("node:test");
-const assert = require("assert");
-const { spawn, exec } = require("node:child_process");
+import test from "node:test";
+import assert, { strictEqual } from "assert";
+import { spawn, exec } from "node:child_process";
 
 test("CLI help command should execute successfully", async () => {
   await new Promise((resolve, reject) => {
     exec("node bin/CLI.js --help", (error, stdout, stderr) => {
       try {
-        assert.strictEqual(error, null);
-        assert.strictEqual(stderr, "");
+        strictEqual(error, null);
+        strictEqual(stderr, "");
         assert(stdout.includes("Usage:"));
         resolve();
       } catch (err) {
@@ -28,7 +28,7 @@ test("gulptask-dev-server command should start server and wait", async () => {
       stdout += data.toString();
       if (stdout.includes("Serving files from:")) {
         try {
-          assert.strictEqual(stderr, "");
+          strictEqual(stderr, "");
           assert(stdout.includes("Serving files from:"));
           process.kill(); // プロセスを終了
           clearTimeout(timeioutID); // タイムアウトをクリア

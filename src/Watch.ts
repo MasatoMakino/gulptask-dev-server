@@ -1,7 +1,6 @@
 "use strict";
-import { ServerGenerationOption } from "./ServerOption";
-
-const path = require("path");
+import { ServerGenerationOption } from "./ServerOption.js";
+import path from "path";
 
 export function getWatch(
   browserSync,

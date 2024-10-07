@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
 import { Command, Option } from "commander";
-import { generateTask } from "./index";
-import { InitOption } from "./ServerOption";
+import { generateTask } from "./index.js";
+import { InitOption } from "./ServerOption.js";
 
 const program = new Command();
 

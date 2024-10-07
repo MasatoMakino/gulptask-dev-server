@@ -1,7 +1,15 @@
 {
   "name": "@masatomakino/gulptask-dev-server",
   "version": "0.4.5",
-  "main": "./bin/index.js",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./bin/index.d.ts",
+        "default": "./bin/index.js"
+      }
+    }
+  },
   "types": "./bin/index.d.ts",
   "bin": {
     "gulptask-dev-server": "bin/CLI.js"
@@ -21,6 +29,7 @@
     "portfinder": "^1.0.32"
   },
   "devDependencies": {
+    "@types/browser-sync": "^2.29.0",
     "@types/node": "^22.5.4",
     "prettier": "^3.3.3",
     "typescript": "^5.0.4"

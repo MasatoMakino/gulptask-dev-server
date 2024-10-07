@@ -1,5 +1,5 @@
-const { exec } = require("child_process");
-import { ServerGenerationOption } from "./ServerOption";
+import { exec } from "child_process";
+import { ServerGenerationOption } from "./ServerOption.js";
 
 /**
  * optionに従い、PHPサーバーかbrowserSyncのいずれかを起動する。
