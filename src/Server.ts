@@ -1,12 +1,13 @@
 import { exec } from "child_process";
 import { ServerGenerationOption } from "./ServerOption.js";
+import { BrowserSyncInstance } from "browser-sync";
 
 /**
  * optionに従い、PHPサーバーかbrowserSyncのいずれかを起動する。
  * @param browserSync
  * @param option
  */
-export async function startServer(browserSync, option: ServerGenerationOption) {
+export async function startServer(browserSync:BrowserSyncInstance, option: ServerGenerationOption) {
   if (option.usePhpDevServer) {
     await startPhpServer(browserSync, option);
   } else {
@@ -20,7 +21,7 @@ export async function startServer(browserSync, option: ServerGenerationOption) {
  * @param option
  */
 function startPhpServer(
-  browserSync,
+  browserSync:BrowserSyncInstance,
   option: ServerGenerationOption
 ): Promise<void> {
   return new Promise((resolve, reject) => {
@@ -56,7 +57,7 @@ function startPhpServer(
 }
 
 function startBSServer(
-  browserSync,
+  browserSync:BrowserSyncInstance,
   option: ServerGenerationOption
 ): Promise<void> {
   return new Promise((resolve) => {
