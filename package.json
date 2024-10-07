@@ -29,9 +29,8 @@
     "test": "npm run build && node --test",
     "build": "tsc",
     "dev": "tsc -w",
-    "preversion": "git checkout main && git pull && npm run testRun",
-    "testRun": "node bin/CLI.js --help",
-    "runCLI": "node bin/CLI.js --base sample"
+    "preversion": "git checkout main && git pull && npm ci && npm test",
+    "postversion": "git add package.json package-lock.json && git checkout -b version/$(git describe --tags --abbrev=0)"
   },
   "description": "browser-sync wrapper for gulp.",
   "bugs": {
