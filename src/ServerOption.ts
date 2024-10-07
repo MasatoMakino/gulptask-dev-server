@@ -1,7 +1,7 @@
 import * as path from "path";
 
-const fs = require("fs");
-const portfinder = require("portfinder");
+import fs from "fs";
+import portfinder from "portfinder";
 const HIGHEST_PORT = 65535;
 
 /**
